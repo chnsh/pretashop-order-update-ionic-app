@@ -24,10 +24,22 @@
   <body ng-app="starter">
 
     <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+      <ion-header-bar class="bar-header bar-dark">
+        <h1 class="title">Lazywyre</h1>
       </ion-header-bar>
       <ion-content>
+        <form name="order_update" novalidate>
+          <div class="list">
+            <label class="item item-input item-floating-label">
+              <span class="input-label">Order ID</span>
+              <input type="number" min="0" placeholder="Order ID" name="order_id" ng-model="order_id" required>
+            </label>
+            <div class="padding">
+              <button type="submit" class="button button-positive button-block" ng-disabled="order_update.$invalid">Submit</button>
+              <p class="form-error" ng-show="order_update.$invalid"> Verify if the form input is valid!</p>
+            </div>
+          </div>
+        </form>
       </ion-content>
     </ion-pane>
   </body>
