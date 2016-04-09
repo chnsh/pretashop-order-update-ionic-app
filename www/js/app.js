@@ -188,6 +188,6 @@ app.controller('OrderStatusCtrl', function ($scope) {
       "order_status_text": "Cancellation Requested",
       "background-color": "#cd0008",
       "color": "white"
-    }]
+    }];
 });
 
