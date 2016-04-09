@@ -17,29 +17,40 @@
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-
+    <script src="lib/ionic-modal-select/dist/ionic-modal-select.js"></script>
     <!-- your app's js -->
     <script src="js/app.js"></script>
   </head>
-  <body ng-app="starter">
+  <body ng-app="starter" ng-controller="OrderStatusCtrl as os">
 
     <ion-pane>
       <ion-header-bar class="bar-header bar-dark">
         <h1 class="title">Lazywyre</h1>
       </ion-header-bar>
       <ion-content>
-        <form name="order_update" novalidate>
+        <form name="order_update" ng-submit="update_order(order_id,order_status)" novalidate>
           <div class="list">
-            <label class="item item-input item-floating-label">
+            <label class="item item-input item-stacked-label">
               <span class="input-label">Order ID</span>
               <input type="number" min="0" placeholder="Order ID" name="order_id" ng-model="order_id" required>
             </label>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Order Status</span>
+              <button class="button button-balanced button-block" ng-show="order_status === undefined" modal-select ng-model="order_status" options="order_status_list" modal-title="Select a status" has-search="true">
+                Select it
+                <div class="option">
+                  {{option.order_status_text}}
+                </div>
+              </button>
+              <p ng-show="order_status !== undefined">{{order_status.order_status_text}}</p>
+            </label>
             <div class="padding">
               <button type="submit" class="button button-positive button-block" ng-disabled="order_update.$invalid">Submit</button>
-              <p class="form-error" ng-show="order_update.$invalid"> Verify if the form input is valid!</p>
+              <p class="form-error" ng-show="order_update.$invalid"><i class="ion-alert-circled"></i> Verify if the form input is valid!</p>
             </div>
           </div>
         </form>
+        {{order_status_success}}
       </ion-content>
     </ion-pane>
   </body>

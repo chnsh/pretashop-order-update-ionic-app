@@ -4,9 +4,14 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('starter', ['ionic']);
+var app = angular.module('starter', ['ionic','ionic-modal-select']);
 
 app.controller('OrderStatusCtrl', function ($scope) {
+
+  $scope.update_order = function(o_id,o_status){
+    $scope.order_status_success = o_id +',' + o_status.order_id;
+  };
+
   $scope.order_status_list = [{
     "order_id": "1",
     "order_status_text": "Awaiting check payment",
