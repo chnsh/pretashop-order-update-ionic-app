@@ -30,13 +30,13 @@
       <ion-content>
         <form name="order_update" ng-submit="update_order(order_id,order_status)" novalidate>
           <div class="list">
-            <label class="item item-input item-stacked-label">
+            <label class="item item-input">
               <span class="input-label">Order ID</span>
               <input type="number" min="0" placeholder="Order ID" name="order_id" ng-model="order_id" required>
             </label>
-            <label class="item item-input item-stacked-label">
+            <label class="item item-input">
               <span class="input-label">Order Status</span>
-              <button class="button button-balanced button-block" ng-show="order_status === undefined" modal-select ng-model="order_status" options="order_status_list" modal-title="Select a status" has-search="true">
+              <button class="button button-balanced" ng-show="order_status === undefined" modal-select ng-model="order_status" options="order_status_list" modal-title="Select a status" has-search="true">
                 Select it
                 <div class="option">
                   {{option.order_status_text}}

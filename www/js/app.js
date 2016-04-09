@@ -8,7 +8,7 @@ var app = angular.module('starter', ['ionic','ionic-modal-select']);
 
 app.controller('OrderStatusCtrl', function ($scope) {
 
-  $scope.update_order = function(o_id,o_status){
+  $scope.update_order = function(o_id,o_st){
     $scope.order_status_success = o_id +',' + o_status.order_id;
   };
 
