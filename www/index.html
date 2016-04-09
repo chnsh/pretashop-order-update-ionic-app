@@ -45,7 +45,7 @@
               <p ng-show="order_status !== undefined">{{order_status.order_status_text}}</p>
             </label>
             <div class="padding">
-              <button type="submit" class="button button-positive button-block" ng-disabled="order_update.$invalid">Submit</button>
+              <button type="submit" class="button button-positive button-block" ng-disabled="order_update.$invalid || order_status === undefined">Submit</button>
               <p class="form-error" ng-show="order_update.$invalid"><i class="ion-alert-circled"></i> Verify if the form input is valid!</p>
             </div>
           </div>
