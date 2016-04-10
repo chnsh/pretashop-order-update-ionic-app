@@ -8,6 +8,11 @@ var app = angular.module('starter', ['ionic', 'ionic-modal-select']);
 
 app.controller('OrderStatusCtrl', function ($scope, $http) {
 
+  $scope.reset_modal_select = function (order) {
+    order.order_status = undefined;
+    $scope.order_update_status = undefined;
+  };
+
   $scope.update_order = function (order) {
     $scope.order_update_status = 'Loading';
     var data = {
