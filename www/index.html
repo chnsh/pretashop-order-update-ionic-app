@@ -28,29 +28,39 @@
         <h1 class="title">Lazywyre</h1>
       </ion-header-bar>
       <ion-content>
-        <form name="order_update" ng-submit="update_order(order_id,order_status)" novalidate>
+        <form name="order_update" novalidate>
           <div class="list">
             <label class="item item-input">
               <span class="input-label">Order ID</span>
-              <input type="number" min="0" placeholder="Order ID" name="order_id" ng-model="order_id" required>
+              <input type="number" min="0" placeholder="Order ID" name="order_id" ng-model="order.order_id" required>
             </label>
             <label class="item item-input">
               <span class="input-label">Order Status</span>
-              <button class="button button-balanced" ng-show="order_status === undefined" modal-select ng-model="order_status" options="order_status_list" modal-title="Select a status" has-search="true">
+              <button class="button button-balanced" ng-show="order.order_status === undefined" modal-select ng-model="order.order_status" options="order_status_list" modal-title="Select a status" has-search="true">
                 Select it
                 <div class="option">
                   {{option.order_status_text}}
                 </div>
               </button>
-              <p ng-show="order_status !== undefined">{{order_status.order_status_text}}</p>
+              <p ng-show="order.order_status !== undefined">{{order.order_status.order_status_text}}</p>
             </label>
             <div class="padding">
-              <button type="submit" class="button button-positive button-block" ng-disabled="order_update.$invalid || order_status === undefined">Submit</button>
-              <p class="form-error" ng-show="order_update.$invalid"><i class="ion-alert-circled"></i> Verify if the form input is valid!</p>
+              <button type="submit" ng-click="update_order(order)" class="button button-positive button-block" ng-disabled="order_update.$invalid || order.order_status === undefined">Submit</button>
+              <p class="form-error" ng-show="order_update.$invalid || order.order_status === undefined"><i class="ion-alert-circled"></i> Verify if the form input is valid!</p>
             </div>
           </div>
         </form>
-        {{order_status_success}}
+        <div class="card" ng-show="order_update_status !== undefined">
+          <div class="item item-text-wrap item-balanced" ng-show="order_update_status == 'Success' ">
+            Order Successfully updated.
+          </div>
+          <div class="item item-text-wrap item-assertive" ng-show="order_update_status == 'Failure' ">
+            Order updating failed due to some reason.
+          </div>
+          <div class="item item-text-wrap item-energized" ng-show="order_update_status == 'Loading' ">
+            Updating....
+          </div>
+        </div>
       </ion-content>
     </ion-pane>
   </body>
