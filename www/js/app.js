@@ -11,6 +11,29 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
   $scope.reset_modal_select = function (order) {
     order.order_status = undefined;
     $scope.order_update_status = undefined;
+    $scope.current_order_status = undefined;
+  };
+
+  $scope.get_order_status = function(order_id){
+    var data ={
+      order_id : order_id
+    };
+
+    $http.post('http://46.101.153.204/get_order_status_app.php',
+      data
+    ).then(function (success) {
+      console.log(success.data);
+      var order_status = success.data.current_state;
+      $scope.order_status_list.forEach(function(element,index,array){
+        if (element.status_id == order_status){
+          console.log(element.order_status_text);
+        }
+      });
+      console.log(order_status);
+    }, function (error) {
+      console.log("Failure in getting order status");
+    });
+
   };
 
   $scope.update_order = function (order) {
