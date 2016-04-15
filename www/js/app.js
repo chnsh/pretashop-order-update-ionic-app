@@ -13,12 +13,14 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
     $scope.order_update_status = null;
     $scope.current_order_status = null;
     $scope.new_order = null;
+    $scope.old_order_status = null;
   };
 
   $scope.update_new_order = function(){
     $scope.new_order = null;
     $scope.current_order_status = null;
     $scope.order_update_status = null;
+    $scope.old_order_status = null;
   };
 
 
@@ -46,6 +48,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
 
   $scope.reset_form = function(){
     $scope.new_order = true;
+    $scope.old_order_status = $scope.current_order_status;
     $scope.current_order_status = null;
   };
 

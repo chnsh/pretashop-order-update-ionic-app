@@ -77,6 +77,14 @@
 
         </div>
 
+        <div class="card" ng-show="old_order_status">
+          <div class="item item-divider">Old Order Status:</div>
+          <div class="item item-text-wrap item-assertive">
+            {{old_order_status}}
+          </div>
+
+        </div>
+
         <div class="card" ng-show="order_update_status">
           <div class="item item-divider">New Order Status:</div>
           <div class="item item-text-wrap item-balanced" ng-show="order_update_status != 'Failure' && order_update_status != 'Loading'">
