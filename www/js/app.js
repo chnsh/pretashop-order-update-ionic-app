@@ -9,15 +9,16 @@ var app = angular.module('starter', ['ionic', 'ionic-modal-select']);
 app.controller('OrderStatusCtrl', function ($scope, $http) {
 
   $scope.reset_modal_select = function (order) {
-    order.order_status = undefined;
-    $scope.order_update_status = undefined;
-    $scope.current_order_status = undefined;
-    $scope.new_order = undefined;
+    order.order_status = null;
+    $scope.order_update_status = null;
+    $scope.current_order_status = null;
+    $scope.new_order = null;
   };
 
   $scope.update_new_order = function(){
-    $scope.new_order = undefined;
-    $scope.order_update_status = undefined;
+    $scope.new_order = null;
+    $scope.current_order_status = null;
+    $scope.order_update_status = null;
   };
 
 
@@ -45,7 +46,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
 
   $scope.reset_form = function(){
     $scope.new_order = true;
-    $scope.current_order_status = undefined;
+    $scope.current_order_status = null;
   };
 
   $scope.update_order = function (order) {
@@ -58,8 +59,8 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
     $http.post('http://46.101.153.204/update_order_app.php',
       data
      ).then(function (success) {
-      if (success.data == "Success"){
-        $scope.order_update_status = "Success";
+      if (success.data == order.order_status.status_id){
+        $scope.order_update_status = order.order_status.order_status_text;
       }
       else{
         $scope.order_update_status = "Failure";
