@@ -12,7 +12,14 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
     order.order_status = undefined;
     $scope.order_update_status = undefined;
     $scope.current_order_status = undefined;
+    $scope.new_order = undefined;
   };
+
+  $scope.update_new_order = function(){
+    $scope.new_order = undefined;
+    $scope.order_update_status = undefined;
+  };
+
 
   $scope.get_order_status = function(order_id){
     var data ={
@@ -26,7 +33,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
       var order_status = success.data.current_state;
       $scope.order_status_list.forEach(function(element,index,array){
         if (element.status_id == order_status){
-          console.log(element.order_status_text);
+          $scope.current_order_status = element.order_status_text;
         }
       });
       console.log(order_status);
@@ -34,6 +41,11 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
       console.log("Failure in getting order status");
     });
 
+  };
+
+  $scope.reset_form = function(){
+    $scope.new_order = true;
+    $scope.current_order_status = undefined;
   };
 
   $scope.update_order = function (order) {
@@ -52,8 +64,10 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
       else{
         $scope.order_update_status = "Failure";
       }
+      $scope.reset_form();
     }, function (error) {
       $scope.order_update_status = "Failure";
+      $scope.reset_form();
     });
   };
 
