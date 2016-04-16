@@ -54,6 +54,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
 
   $scope.update_order = function (order) {
     $scope.order_update_status = 'Loading';
+    $scope.order_update_ionic_color='item-energized';
     var data = {
       order_id: order.order_id,
       order_status: order.order_status.status_id
@@ -64,13 +65,16 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
      ).then(function (success) {
       if (success.data == order.order_status.status_id){
         $scope.order_update_status = order.order_status.order_status_text;
+        $scope.order_update_ionic_color='item-balanced';
       }
       else{
-        $scope.order_update_status = "Failure";
+        $scope.order_update_status = "Order might have been updated, please check again";
+        $scope.order_update_ionic_color='item-dark';
       }
       $scope.reset_form();
     }, function (error) {
       $scope.order_update_status = "Failure";
+      $scope.order_update_ionic_color='item-assertive';
       $scope.reset_form();
     });
   };

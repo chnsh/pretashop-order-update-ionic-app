@@ -87,14 +87,8 @@
 
         <div class="card" ng-show="order_update_status">
           <div class="item item-divider">New Order Status:</div>
-          <div class="item item-text-wrap item-balanced" ng-show="order_update_status != 'Failure' && order_update_status != 'Loading'">
+          <div class="item item-text-wrap {{order_update_ionic_color}}">
             {{order_update_status}}
-          </div>
-          <div class="item item-text-wrap item-assertive" ng-show="order_update_status == 'Failure' ">
-            Order updating failed due to some reason.
-          </div>
-          <div class="item item-text-wrap item-energized" ng-show="order_update_status == 'Loading' ">
-            Updating....
           </div>
         </div>
       </ion-content>
