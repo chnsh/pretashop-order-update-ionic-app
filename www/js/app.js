@@ -28,10 +28,11 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
     var data ={
       order_id : order_id
     };
-
-    $http.post('http://46.101.153.204/get_order_status_app.php',
+    $scope.is_get_order_status_loading = true;
+    $http.post('http://lazywyre.com/get_order_status_app.php',
       data
     ).then(function (success) {
+      $scope.is_get_order_status_loading = false;
       console.log(success.data);
       var order_status = success.data.current_state;
       $scope.order_status_list.forEach(function(element,index,array){
@@ -41,7 +42,10 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
       });
       console.log(order_status);
     }, function (error) {
+      $scope.is_get_order_status_loading = false;
       console.log("Failure in getting order status");
+      $scope.current_order_status = "Failure in getting order status";
+      $scope.new_order = true;
     });
 
   };
@@ -60,7 +64,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
       order_status: order.order_status.status_id
     };
     //console.log(data);
-    $http.post('http://46.101.153.204/update_order_app.php',
+    $http.post('http://lazywyre.com/update_order_app.php',
       data
      ).then(function (success) {
       if (success.data == order.order_status.status_id){

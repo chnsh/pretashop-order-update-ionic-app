@@ -41,12 +41,12 @@
           </div>
 
           <div class="padding">
-            <button type="submit" ng-click="get_order_status(order.order_id)" class="button button-positive button-block" ng-disabled="order_status_form.$invalid">Get Order Status</button>
+            <button type="submit" ng-click="get_order_status(order.order_id)" class="button button-positive button-block" ng-disabled="order_status_form.$invalid || is_get_order_status_loading">Get Order Status</button>
             <p class="form-error" ng-show="order_status_form.$invalid"><i class="ion-alert-circled"></i> Verify if the order id is valid!</p>
           </div>
         </form>
 
-        <form name="order_update" novalidate ng-show="current_order_status && !new_order">
+        <form name="order_update" novalidate ng-show="current_order_status && current_order_status != 'Failure in getting order status' && !new_order">
           <div class="list">
             <label class="item item-input">
               <span class="input-label">Order ID</span>
@@ -63,7 +63,7 @@
               <p ng-show="order.order_status">{{order.order_status.order_status_text}}</p>
             </label>
             <div class="padding">
-              <button type="submit" ng-click="update_order(order)" class="button button-positive button-block" ng-disabled="order_update.$invalid || !order.order_status">Update order</button>
+              <button type="submit" ng-click="update_order(order)" class="button button-positive button-block" ng-disabled="order_update.$invalid || !order.order_status || order_update_status =='Loading' ">Update order</button>
               <p class="form-error" ng-show="order_update.$invalid || !order.order_status"><i class="ion-alert-circled"></i> Verify if the form input is valid!</p>
             </div>
           </div>
