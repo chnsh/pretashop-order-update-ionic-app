@@ -5,6 +5,7 @@ var app = angular.module('starter', ['ionic', 'ionic-modal-select']);
 
 app.controller('OrderStatusCtrl', function ($scope, $http, $ionicPopup, $ionicLoading) {
 
+  $scope.store_name = '';
   //set api endpoints here
   var GET_ORDER_STATES_URL = '';
   var GET_ORDER_STATUS_URL = '';
