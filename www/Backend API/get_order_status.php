@@ -6,23 +6,23 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
         header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Max-Age: 86400');    // cache for 1 day
     }
- 
+
  	// Handling CORS issues
     // Access-Control headers are received during OPTIONS requests
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
- 
+
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
- 
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
             header("Access-Control-Allow-Headers:        {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
- 
+
         exit(0);
     }
 
 define('DEBUG', false);
-define('PS_SHOP_PATH', 'http://www.lazywyre.com/');
-define('PS_WS_AUTH_KEY', 'F41EF44PVP8JB7YNUYWM7LVI3MNWRZV3');
+define('PS_SHOP_PATH', 'http://localhost/prestashop');
+define('PS_WS_AUTH_KEY', 'SF5Z6JTD6PZSNNRI8FEXQTHWKGCBC2DZ');
 
 
 $postdata = file_get_contents("php://input");
@@ -44,7 +44,7 @@ if (isset($order_id)){
 
                 $current_state =(int)$resources->current_state;
                 echo json_encode(array('current_state' => $current_state, 'order_id' => $order_id ));
-                
+
         }
         catch (PrestaShopWebserviceException $e)
         {
