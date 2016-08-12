@@ -17,3 +17,6 @@ Do the following to successfully setup this application:
 - Update the [app.js](www/js/app.js) with the store name and correct API endpoint URLS that were uploaded in the previous step.
 - (Optional) Try [Ionic Serve](http://ionicframework.com/docs/guide/testing.html) feature to test in the browser if the app is configured correctly.
 - Use [this link](http://ionicframework.com/docs/guide/publishing.html) to understand how to publish the app.
+
+
+Download the zip: [Download](https://github.com/chintanshah24/pretashop-order-update-ionic-app/archive/master.zip)
