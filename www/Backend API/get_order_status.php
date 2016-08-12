@@ -7,6 +7,7 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
         header('Access-Control-Max-Age: 86400');    // cache for 1 day
     }
  
+ 	// Handling CORS issues
     // Access-Control headers are received during OPTIONS requests
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
  
@@ -23,13 +24,14 @@ define('DEBUG', false);
 define('PS_SHOP_PATH', 'http://www.lazywyre.com/');
 define('PS_WS_AUTH_KEY', 'F41EF44PVP8JB7YNUYWM7LVI3MNWRZV3');
 
+
 $postdata = file_get_contents("php://input");
 if (isset($postdata)) {
     $request = json_decode($postdata);
     $order_id = $request->order_id;
 }
-// $order_id = $_POST['order_id'];
-// $order_status = $_POST['order_status'];
+
+
 if (isset($order_id)){
         try
         {
@@ -40,8 +42,6 @@ if (isset($order_id)){
                 // Here we get the elements from children of customer markup which is children of prestashop root markup
                 $resources = $xml->children()->children();
 
-                // foreach ($resources as $key => $value)
-                //         echo $key.' : '.$value . '<br />';
                 $current_state =(int)$resources->current_state;
                 echo json_encode(array('current_state' => $current_state, 'order_id' => $order_id ));
                 

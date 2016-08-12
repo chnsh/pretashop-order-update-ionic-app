@@ -6,7 +6,16 @@
 // the 2nd parameter is an array of 'requires'
 var app = angular.module('starter', ['ionic', 'ionic-modal-select']);
 
-app.controller('OrderStatusCtrl', function ($scope, $http) {
+app.controller('OrderStatusCtrl', function ($scope, $http,$ionicLoading) {
+
+  // Encapsulated show and hide within scope methods to allow future modification
+  $scope.show_loading_spinner = function(){
+    $ionicLoading.show();
+  };
+
+  $scope.hide_loading_spinner = function () {
+    $ionicLoading.hide();
+  };
 
   $scope.reset_modal_select = function (order) {
     order.order_status = null;
@@ -25,6 +34,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
 
 
   $scope.get_order_status = function(order_id){
+    $scope.show_loading_spinner();
     var data ={
       order_id : order_id
     };
@@ -32,16 +42,18 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
     $http.post('http://lazywyre.com/get_order_status_app.php',
       data
     ).then(function (success) {
+      $scope.hide_loading_spinner();
       $scope.is_get_order_status_loading = false;
-      console.log(success.data);
+      //console.log(success.data);
       var order_status = success.data.current_state;
       $scope.order_status_list.forEach(function(element,index,array){
         if (element.status_id == order_status){
           $scope.current_order_status = element.order_status_text;
         }
       });
-      console.log(order_status);
+      //console.log(order_status);
     }, function (error) {
+      $scope.hide_loading_spinner();
       $scope.is_get_order_status_loading = false;
       console.log("Failure in getting order status");
       $scope.current_order_status = "Failure in getting order status";
@@ -57,8 +69,9 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
   };
 
   $scope.update_order = function (order) {
-    $scope.order_update_status = 'Loading';
-    $scope.order_update_ionic_color='item-energized';
+    //$scope.order_update_status = 'Loading';
+    //$scope.order_update_ionic_color='item-energized';
+    $scope.show_loading_spinner();
     var data = {
       order_id: order.order_id,
       order_status: order.order_status.status_id
@@ -67,6 +80,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
     $http.post('http://lazywyre.com/update_order_app.php',
       data
      ).then(function (success) {
+      $scope.hide_loading_spinner();
       if (success.data == order.order_status.status_id){
         $scope.order_update_status = order.order_status.order_status_text;
         $scope.order_update_ionic_color='item-balanced';
@@ -77,6 +91,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http) {
       }
       $scope.reset_form();
     }, function (error) {
+      $scope.hide_loading_spinner();
       $scope.order_update_status = "Failure";
       $scope.order_update_ionic_color='item-assertive';
       $scope.reset_form();
