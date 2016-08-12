@@ -1,15 +1,14 @@
 "use strict";
-// Ionic Starter App
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
+//todo refactor
 var app = angular.module('starter', ['ionic', 'ionic-modal-select']);
 
-app.controller('OrderStatusCtrl', function ($scope, $http, $ionicLoading) {
+app.controller('OrderStatusCtrl', function ($scope, $http, $ionicPopup, $ionicLoading) {
 
-  //todo refactor
-  //todo set api endpoints here
+  //set api endpoints here
+  var GET_ORDER_STATES_URL = '';
+  var GET_ORDER_STATUS_URL = '';
+  var UPDATE_ORDER_STATUS_URL = '';
   // Encapsulated show and hide within scope methods to allow future modification
   $scope.show_loading_spinner = function () {
     $ionicLoading.show();
@@ -19,26 +18,40 @@ app.controller('OrderStatusCtrl', function ($scope, $http, $ionicLoading) {
     $ionicLoading.hide();
   };
 
-  function set_order_status_list(){
+  /*
+  This function get a list of states an order can lie in.
+  For example, Pending or Shipped and sets
+  After retrieving the state list, the function sets it in a variable
+   */
+  function set_order_states_list() {
     var localstorage = window.localStorage;
     var order_status_list = localstorage.getItem('order_status_list');
-    // Checking for null since localstorage explicitely returns null if key doesn't exist
-    if(order_status_list == null)
-    {
+    // Checking for null since localstorage explicitly returns null if key doesn't exist
+    if (order_status_list == null) {
       $scope.show_loading_spinner();
-      $http.get('http://localhost/prestashop/get_order_states.php').then(function (success){
+      $http.get(GET_ORDER_STATES_URL).then(function (success){
         $scope.order_status_list = success.data;
-        localstorage.setItem('order_status_list',JSON.stringify(success.data));
+        localstorage.setItem('order_status_list', JSON.stringify(success.data));
         $scope.hide_loading_spinner();
-      }, function (error){
-        //todo error handling here
+      }, function (error) {
+        //todo improve error handling!
+        $scope.hide_loading_spinner();
+        var alertPopup = $ionicPopup.alert({
+          title: 'Error in getting order states!',
+          template: 'There was an error in retrieving order states for the prestashop setup. The application won\'t work.'
+        });
+
+        alertPopup.then(function (res) {
+          ionic.Platform.exitApp();
+        });
       });
     }
-    else{
+    else {
       $scope.order_status_list = JSON.parse(order_status_list);
     }
   }
-  set_order_status_list();
+
+  set_order_states_list();
 
   $scope.reset_modal_select = function (order) {
     order.order_status = null;
@@ -55,6 +68,10 @@ app.controller('OrderStatusCtrl', function ($scope, $http, $ionicLoading) {
     $scope.old_order_status = null;
   };
 
+  /*
+  This function is a wrapper for functionality needed to be performed on occurrence of an error
+  in the process of getting the status of an order given its id.
+   */
   function handle_getting_order_status_error(message) {
     message = message || '';
     $scope.hide_loading_spinner();
@@ -65,6 +82,10 @@ app.controller('OrderStatusCtrl', function ($scope, $http, $ionicLoading) {
     $scope.new_order = true;
   }
 
+  /*
+  This function is a wrapper for functionality needed to be performed on occurrence of an error
+  in the process of updating the status of an order given its id.
+   */
   function handle_update_order_status_error(message) {
     message = message || '';
     $scope.hide_loading_spinner();
@@ -74,13 +95,16 @@ app.controller('OrderStatusCtrl', function ($scope, $http, $ionicLoading) {
     $scope.reset_form();
   }
 
+  /*
+  This function retrieves the status of an order given its id and sets the order status text
+   */
   $scope.get_order_status = function (order_id) {
     $scope.show_loading_spinner();
     var data = {
       order_id: order_id
     };
     $scope.is_get_order_status_loading = true;
-    $http.post('http://localhost/prestashop/get_order_status.php',
+    $http.post(GET_ORDER_STATUS_URL,
       data
     ).then(function (success) {
       $scope.hide_loading_spinner();
@@ -109,6 +133,9 @@ app.controller('OrderStatusCtrl', function ($scope, $http, $ionicLoading) {
     $scope.current_order_status = null;
   };
 
+  /*
+  This function takes an order id and the new status of the id and updates it on the server
+   */
   $scope.update_order = function (order) {
     //$scope.order_update_status = 'Loading';
     //$scope.order_update_ionic_color='item-energized';
@@ -118,7 +145,7 @@ app.controller('OrderStatusCtrl', function ($scope, $http, $ionicLoading) {
       order_status: order.order_status.status_id
     };
     //console.log(data);
-    $http.post('http://localhost/prestashop/update_order.php',
+    $http.post(UPDATE_ORDER_STATUS_URL,
       data
     ).then(function (success) {
       $scope.hide_loading_spinner();
